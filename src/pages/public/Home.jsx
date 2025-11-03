@@ -37,7 +37,7 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <main className="max-w-10xl mx-auto px-4 pt-2">
+    <main className="mx-auto px-4 pt-2 overflow-x-hidden">
       <CategoryBar
         selectedCategory={selectedCategory}
         categories={categories}
