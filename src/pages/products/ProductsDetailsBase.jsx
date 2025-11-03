@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../redux/slices/cartSlice";
 import { fetchProductById } from "../../api/products";
 import SimilarProducts from "../../components/products/SimilarProducts";
-import RecentlyViewed from "../../components/products/Recentlyviewed";
+import RecentlyViewed from "../../components/products/RecentlyViewed";
 
 const ProductDetailsBase = ({ onProductLoad, children, showRecentlyViewed = false }) => {
   const [product, setProduct] = useState(null);
