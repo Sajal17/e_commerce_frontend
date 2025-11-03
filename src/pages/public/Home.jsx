@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import CategoryBar from "../../components/CategoryBar";
 import SlidingBanner from "../../components/SlidingBanner";
 import FeaturedProducts from "../../components/FeaturedProducts";
-import RecentlyViewed from "../../components/products/Recentlyviewed";
+import RecentlyViewed from "../../components/products/RecentlyViewed";
 import { loadRecentlyViewed, addLocalRecentlyViewed } from "../../redux/slices/recentlyViewedSlice";
 
 const categories = [
