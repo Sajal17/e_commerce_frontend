@@ -111,7 +111,7 @@ const Navbar = ({ onSearch }) => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-[1000] relative">
       <div className="w-full overflow-visible px-3 sm:px-4 lg:px-6">
-        <div className="flex items-center justify-between gap-4 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 py-4 sm:flex-nowrap">
           {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
             <Link to="/" className="text-2xl font-extrabold text-indigo-600">
@@ -121,7 +121,7 @@ const Navbar = ({ onSearch }) => {
           </div>
 
           {/* Search Bar */}
-     <div className="relative flex-1">
+     <div className="relative flex-1 min-w-[200px] w-full sm:w-auto">
       <div className="flex items-center bg-slate-100 rounded-md overflow-hidden">
        <input
       type="text"
