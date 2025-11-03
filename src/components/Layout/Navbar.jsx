@@ -117,7 +117,7 @@ const Navbar = ({ onSearch }) => {
             <Link to="/" className="text-2xl font-extrabold text-indigo-600">
               M-Mart
             </Link>
-            <span className="text-xs text-gray-500">— marketplace</span>
+            {/* <span className="text-xs text-gray-500">— marketplace</span> */}
           </div>
 
           {/* Search Bar */}
