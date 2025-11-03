@@ -13,7 +13,7 @@ const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Selectors
+  // Selectors
   const userInfo = useSelector(selectNormalizedUser); // authSlice user (could be null)
   const user = useSelector(selectUser); // userSlice
   const seller = useSelector(selectSeller); // sellerSlice
@@ -117,7 +117,7 @@ const Navbar = ({ onSearch }) => {
             <Link to="/" className="text-2xl font-extrabold text-indigo-600">
               M-Mart
             </Link>
-            <span className="text-xs text-gray-500">— marketplace</span>
+            {/* <span className="text-xs text-gray-500">— marketplace</span> */}
           </div>
 
           {/* Search Bar */}
@@ -321,109 +321,73 @@ const Navbar = ({ onSearch }) => {
           </div>
 
           {/* Mobile Menu */}
-          <div className="sm:hidden relative">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md hover:bg-gray-100"
-            >
-              <svg
-                className="h-6 w-6 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                />
-              </svg>
-            </button>
+          <div className="sm:hidden">
+  <button
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    className="p-2 rounded-md hover:bg-gray-100"
+  >
+    <svg
+      className="h-6 w-6 text-gray-700"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+      />
+    </svg>
+  </button>
 
-            {mobileMenuOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg z-[9999] flex flex-col gap-2 p-2">
-                {!isAuthenticated ? (
-                  <>
-                    <Link
-                      to="/login"
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/login"
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                    >
-                      Be Seller
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to={profileLink}
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {userInfo?.firstName || userInfo?.email || "Profile"}
-                    </Link>
+  {mobileMenuOpen && (
+    <div
+      className="fixed inset-x-0 top-[64px] bg-white border-t border-gray-200 shadow-lg z-[2000] flex flex-col gap-2 p-4 sm:hidden"
+    >
+      {!isAuthenticated ? (
+        <>
+          <Link to="/login" className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded">
+            Login
+          </Link>
+          <Link to="/login" className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded">
+            Be Seller
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link
+            to={profileLink}
+            className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {userInfo?.firstName || userInfo?.email || "Profile"}
+          </Link>
+          <Link
+            to="/cart"
+            className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Cart ({cartItems.length})
+          </Link>
+          <button
+            onClick={() => {
+              handleLogout();
+              setMobileMenuOpen(false);
+            }}
+            className="text-left px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
+          >
+            Logout
+          </button>
+        </>
+      )}
+      <Link to="/about-us" className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded">
+        About Us
+      </Link>
+    </div>
+  )}
+</div>
 
-                    {role === "ROLE_USER" && (
-                      <Link
-                        to="/cart"
-                        className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Cart ({cartItems.length})
-                      </Link>
-                    )}
-
-                    {role === "ROLE_SELLER" && (
-                      <Link
-                        to="/seller/dashboard"
-                        className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Dashboard
-                      </Link>
-                    )}
-
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="text-left px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                    >
-                      Logout
-                    </button>
-
-                    <Link
-                      to="/notifications"
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Notifications
-                    </Link>
-                    <Link
-                      to="/help"
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Help
-                    </Link>
-                    <Link
-                      to="/about-us"
-                      className="px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      About Us
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </header>
