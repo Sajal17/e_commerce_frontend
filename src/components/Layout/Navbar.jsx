@@ -109,8 +109,8 @@ const Navbar = ({ onSearch }) => {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-[1000]">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+    <header className="bg-white shadow-sm sticky top-0 z-[1000] relative">
+      <div className="w-full overflow-visible px-3 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between gap-4 py-4">
           {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
@@ -236,7 +236,7 @@ const Navbar = ({ onSearch }) => {
                 </button>
 
                 {dropdownOpen === "profile" && (
-                  <div className="absolute right-0 top-full mt-2 bg-gray-700 text-white rounded p-2 min-w-[140px] shadow-lg z-[9999]">
+                  <div className="absolute right-2 top-full mt-2 bg-gray-700 text-white rounded p-2 min-w-[140px] shadow-lg z-[9999]">
                     <Link
                       to={profileLink}
                       className="block px-2 py-1 rounded hover:bg-gray-600"
@@ -293,7 +293,7 @@ const Navbar = ({ onSearch }) => {
               </button>
 
               {dropdownOpen === "more" && (
-                <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded shadow-lg z-[9999]">
+                <div className="absolute right-2 mt-2 w-44 bg-white border border-gray-200 rounded shadow-lg z-[9999]">
                   <Link
                     to="/notifications"
                     className="block px-3 py-2 text-gray-800 hover:bg-gray-100"
