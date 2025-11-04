@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader.jsx";
-import API from "../../api/axiosInstance"; // ✅ use configured instance
+import API from "../../api/axiosInstance";
 
 const Orders = () => {
   const { user } = useSelector((state) => state.auth);
@@ -18,10 +18,10 @@ const Orders = () => {
 
       try {
         console.log("Fetching orders for user:", user.id);
-        const res = await API.get(`/orders/customer/${user.id}`); // ✅ Auth handled by interceptor
+        const res = await API.get(`/orders/customer/${user.id}`);
         console.log("Fetched orders (detailed):", JSON.stringify(res.data, null, 2));
         
-        setOrders(res.data.content || res.data || []); // ✅ handles both Page<> and list responses
+        setOrders(res.data.content || res.data || []);
       } catch (err) {
         console.error("Error fetching orders:", err.response?.data || err.message);
         setIsError(true);

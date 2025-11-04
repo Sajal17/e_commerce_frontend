@@ -7,27 +7,21 @@ import { getUserProfile } from "../../api/user";
 import { getOwnSellerProfile } from "../../api/seller";
 import {jwtDecode} from "jwt-decode";
 
-// Helper: get token
 const getTokenFromStorage = () => localStorage.getItem("token") || null;
 
-// Normalize user to always have roles as array
 const normalizeUser = (profileData) => {
   if (!profileData) return null;
 
-  // Ensure role is always an array
   const roles = Array.isArray(profileData.role) ? profileData.role : [profileData.role];
-  const role = roles[0] || null; // first role for convenience
-
-  // Return object with roles array + single role
+  const role = roles[0] || null;
   return { ...profileData, roles, role };
 };
 
 
-// Load user from localStorage
 const userFromStorage = JSON.parse(localStorage.getItem("user"));
 const tokenFromStorage = getTokenFromStorage();
 if (!tokenFromStorage) {
-  localStorage.removeItem("user");  // ✅ Clear stale user
+  localStorage.removeItem("user");
 }
 const initialState = {
   user: tokenFromStorage ? normalizeUser(userFromStorage) : null,
@@ -36,7 +30,6 @@ const initialState = {
   error: null,
 };
 
-// --- Register User ---
 export const registerNewUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
@@ -49,7 +42,6 @@ export const registerNewUser = createAsyncThunk(
   }
 );
 
-// --- Register Seller ---
 export const registerNewSeller = createAsyncThunk(
   "auth/registerSeller",
   async (sellerData, { rejectWithValue }) => {
@@ -62,34 +54,24 @@ export const registerNewSeller = createAsyncThunk(
   }
 );
 
-// --- Login Thunk ---
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      // 1️⃣ Login API
       const res = await loginUser(credentials);
       const token = res.data?.accessToken;
       if (!token) return rejectWithValue("Login failed — no token");
 
       localStorage.setItem("token", token);
-
-      // 2️⃣ Decode token to detect role
       const decoded = jwtDecode(token);
       const roles = decoded?.roles || decoded?.authorities || [];
       const primaryRole = Array.isArray(roles) ? roles[0] : roles;
-
-      console.log("Decoded roles from JWT:", roles);
-
-      // 3️⃣ Fetch profile based on role
       let profile;
       if (primaryRole === "ROLE_SELLER") {
         profile = await getOwnSellerProfile();
       } else {
         profile = await getUserProfile();
       }
-
-      // 4️⃣ Normalize and save
       const normalized = normalizeUser(profile.data || profile);
       localStorage.setItem("user", JSON.stringify(normalized));
 
@@ -102,7 +84,6 @@ export const login = createAsyncThunk(
 );
 
 
-// --- Logout Thunk ---
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
@@ -120,7 +101,6 @@ export const logout = createAsyncThunk(
   }
 );
 
-// --- Slice ---
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -131,7 +111,6 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Login
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -146,7 +125,6 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // --- Register User ---
       .addCase(registerNewUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -159,7 +137,6 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // --- Register Seller ---
       .addCase(registerNewSeller.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -172,13 +149,11 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // User profile fetch
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         if (!action.payload) return;
         state.user = normalizeUser(action.payload.data || action.payload);
       })
       .addCase(fetchUserProfile.rejected, (state) => {
-        console.warn("User profile fetch failed — clearing user");
         state.user = null;
         localStorage.removeItem("user");
         localStorage.removeItem("token");
@@ -188,12 +163,10 @@ const authSlice = createSlice({
         state.user = normalizeUser(action.payload.data || action.payload);
       })
       .addCase(fetchSellerProfileAPI.rejected, (state) => {
-        console.warn("Seller profile fetch failed — clearing user");
         state.user = null;
         localStorage.removeItem("user");
         localStorage.removeItem("token");
       })
-      // Logout
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.token = null;

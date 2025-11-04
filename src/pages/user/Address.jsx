@@ -20,8 +20,6 @@ const Address = () => {
     country: "",
     zip: "",
   });
-
-  // For editing existing address
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
 
@@ -52,13 +50,11 @@ const Address = () => {
     });
   };
 
-  // Handle edit field change
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save edited address
   const handleEditSave = (id) => {
     dispatch(modifyAddress({ id, data: editData }));
     setEditingId(null);
@@ -71,14 +67,12 @@ const Address = () => {
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      {/* Existing Addresses */}
       <div className="grid md:grid-cols-2 gap-4">
         {addresses?.length > 0 ? (
           addresses.map((a) => (
             <div key={a.id} className="p-4 border rounded-lg shadow-sm">
               {editingId === a.id ? (
                 <>
-                  {/* Edit form */}
                   {[
                     { name: "fullName", placeholder: "Full Name" },
                     { name: "phone", placeholder: "Phone" },
@@ -115,7 +109,6 @@ const Address = () => {
                 </>
               ) : (
                 <>
-                  {/* View mode */}
                   <h3 className="font-semibold">{a.fullName}</h3>
                   <p>{a.phone}</p>
                   <p>{a.street}</p>
@@ -147,8 +140,6 @@ const Address = () => {
           <p>No addresses saved yet.</p>
         )}
       </div>
-
-      {/* Add New Address */}
       <div className="mt-6 border-t pt-4">
         <h3 className="text-lg font-semibold mb-2">Add New Address</h3>
 

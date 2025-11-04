@@ -1,4 +1,3 @@
-// src/hooks/useProductPreload.js
 import { useRef } from "react";
 import { fetchProductById } from "../api/products";
 

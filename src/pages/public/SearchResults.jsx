@@ -12,7 +12,6 @@ const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Get query and selected product from URL
   const query = new URLSearchParams(location.search).get("q") || "";
   const selectedParam = new URLSearchParams(location.search).get("selected");
   const selectedProductId = selectedParam ? Number(selectedParam) : null;
@@ -24,14 +23,11 @@ const SearchResults = () => {
   (state) => state.similar
   );
 
-// Determine category from selected product
 const category = selectedProduct?.category;
-  // Fetch new results whenever query changes
   useEffect(() => {
     if (query) dispatch(fetchSearchResults(query));
   }, [dispatch, query]);
 
-  // Find selected product from results
   useEffect(() => {
     if (results.length && selectedProductId) {
       const product = results.find((p) => Number(p.productId) === selectedProductId);
@@ -41,13 +37,11 @@ const category = selectedProduct?.category;
     }
   }, [results, selectedProductId]);
 
-  // Reset filters on query or selection change
   useEffect(() => {
     setSelectedBrands([]);
     setPriceRange([0, 1000000]);
   }, [query, selectedProductId]);
 
-  // Determine category context for recommendations
  useEffect(() => {
   if (category) dispatch(fetchSimilarProducts(category));
 }, [category, dispatch]);
@@ -57,7 +51,6 @@ useEffect(() => {
   console.log(" Same Category Results:", sameCategoryResults);
 }, [results, selectedProduct, sameCategoryResults]);
 
-  // Filter by name based on query
   const filteredByName = useMemo(() => {
     if (!query) return sameCategoryResults;
     const lowerQuery = query.toLowerCase();
@@ -66,7 +59,6 @@ useEffect(() => {
     );
   }, [sameCategoryResults, query]);
 
-  // Get unique brands for filter
   const brands = useMemo(() => {
     return [...new Set(sameCategoryResults.map((p) => p.brand))].filter(Boolean);
   }, [sameCategoryResults]);
@@ -76,7 +68,6 @@ useEffect(() => {
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
 
-  // Apply brand and price filters
   const filteredResults = useMemo(() => {
     return filteredByName
       .filter((p) => (selectedBrands.length ? selectedBrands.includes(p.brand) : true))
@@ -84,7 +75,6 @@ useEffect(() => {
       .filter((p) => Number(p.productId) !== selectedProductId);
   }, [filteredByName, selectedBrands, priceRange]);
 
-  // Min & max price for slider
   const minPrice = useMemo(
     () => (sameCategoryResults.length ? Math.min(...sameCategoryResults.map((p) => p.price)) : 0),
     [sameCategoryResults]

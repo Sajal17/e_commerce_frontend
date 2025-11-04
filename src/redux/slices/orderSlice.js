@@ -12,7 +12,6 @@ const handleError = (err, fallback) =>
   err.message ||
   fallback;
 
-// Load orders
 export const loadOrders = createAsyncThunk(
   "orders/load",
   async (userId, { rejectWithValue }) => {
@@ -25,7 +24,6 @@ export const loadOrders = createAsyncThunk(
   }
 );
 
-// Place order
 export const placeOrder = createAsyncThunk(
   "orders/place",
   async (data, { rejectWithValue }) => {
@@ -38,7 +36,6 @@ export const placeOrder = createAsyncThunk(
   }
 );
 
-// Fetch specific order
 export const fetchOrderById = createAsyncThunk(
   "orders/fetchById",
   async (orderId, { rejectWithValue }) => {
@@ -51,7 +48,6 @@ export const fetchOrderById = createAsyncThunk(
   }
 );
 
-// Cancel order
 export const cancelUserOrder = createAsyncThunk(
   "orders/cancel",
   async (orderId, { rejectWithValue }) => {

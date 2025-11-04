@@ -30,7 +30,6 @@ function Home() {
     if (user?.id) {
       dispatch(loadRecentlyViewed(user.id));
     } else {
-      // ✅ correct key name
       const stored = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
       stored.forEach(product => dispatch(addLocalRecentlyViewed(product)));
     }

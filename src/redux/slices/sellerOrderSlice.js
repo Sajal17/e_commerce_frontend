@@ -1,21 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getSellerOrders, updateSellerOrder } from "../../api/seller";
 
-// 🔹 Fetch seller orders
 export const fetchSellerOrders = createAsyncThunk(
   "sellerOrders/fetchOrders",
   async (_, { rejectWithValue }) => {
     try {
       const response = await getSellerOrders();
-      return response.data; // Expecting PageResponse from backend
+      return response.data;
     } catch (error) {
-      console.error("❌ Fetch seller orders failed:", error);
       return rejectWithValue(error.response?.data?.message || "Failed to load seller orders");
     }
   }
 );
 
-// 🔹 Update order status
 export const updateOrderStatus = createAsyncThunk(
   "sellerOrders/updateOrderStatus",
   async ({ orderId, status }, { rejectWithValue }) => {
@@ -23,7 +20,6 @@ export const updateOrderStatus = createAsyncThunk(
       const response = await updateSellerOrder(orderId, status);
       return response.data;
     } catch (error) {
-      console.error("❌ Update order status failed:", error);
       return rejectWithValue(error.response?.data?.message || "Failed to update order status");
     }
   }
@@ -36,7 +32,6 @@ const initialState = {
   updating: false,
 };
 
-// ✅ Slice definition
 const sellerOrderSlice = createSlice({
   name: "sellerOrders",
   initialState,
@@ -47,7 +42,6 @@ const sellerOrderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // 🟦 Fetch Orders
       .addCase(fetchSellerOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -60,8 +54,6 @@ const sellerOrderSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      // 🟩 Update Order Status
       .addCase(updateOrderStatus.pending, (state) => {
         state.updating = true;
       })

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAddresses,addAddress,updateAddress,deleteAddress } from "../../api/address";
-// Fetch all addresses for logged-in user
 export const loadAddresses = createAsyncThunk(
   "address/fetchAll",
   async (_, { rejectWithValue }) => {
@@ -12,8 +11,6 @@ export const loadAddresses = createAsyncThunk(
     }
   }
 );
-
-//  Add a new address
 export const createAddress = createAsyncThunk(
   "address/add",
   async (data, { rejectWithValue }) => {
@@ -26,7 +23,6 @@ export const createAddress = createAsyncThunk(
   }
 );
 
-//  Update an address
 export const modifyAddress = createAsyncThunk(
   "address/update",
   async ({ id, data }, { rejectWithValue }) => {
@@ -39,7 +35,6 @@ export const modifyAddress = createAsyncThunk(
   }
 );
 
-// Delete an address
 export const removeAddress = createAsyncThunk(
   "address/delete",
   async (id, { rejectWithValue }) => {
@@ -62,7 +57,6 @@ const addressSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //  Fetch
       .addCase(loadAddresses.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -75,16 +69,12 @@ const addressSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      //  Add
       .addCase(createAddress.fulfilled, (state, action) => {
         state.addresses.push(action.payload);
       })
       .addCase(createAddress.rejected, (state, action) => {
         state.error = action.payload;
       })
-
-      //  Update
       .addCase(modifyAddress.fulfilled, (state, action) => {
         state.addresses = state.addresses.map((a) =>
           a.id === action.payload.id ? action.payload : a
@@ -93,8 +83,6 @@ const addressSlice = createSlice({
       .addCase(modifyAddress.rejected, (state, action) => {
         state.error = action.payload;
       })
-
-      //  Delete
       .addCase(removeAddress.fulfilled, (state, action) => {
         state.addresses = state.addresses.filter((a) => a.id !== action.payload);
       })

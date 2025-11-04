@@ -13,24 +13,20 @@ const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Selectors
-  const userInfo = useSelector(selectNormalizedUser); // authSlice user (could be null)
-  const user = useSelector(selectUser); // userSlice
-  const seller = useSelector(selectSeller); // sellerSlice
+  const userInfo = useSelector(selectNormalizedUser); 
+  const user = useSelector(selectUser); 
+  const seller = useSelector(selectSeller); 
   const cartItems = useSelector((state) => state.cart.items);
   const { results, loading } = useSelector((state) => state.search);
   const recentProducts = useSelector(state => state.recentlyViewed.items);
 
-  // Safe authentication check
   const isAuthenticated = !!userInfo;
-  const role = userInfo?.role || userInfo?.roles?.[0] || "GUEST"; // assign "GUEST" if null
+  const role = userInfo?.role || userInfo?.roles?.[0] || "GUEST"; 
 
-  // Local state
   const [query, setQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
-  // Safe profile link
   const profileLink =
     role === "ROLE_SELLER"
       ? "/seller/dashboard"
@@ -38,8 +34,6 @@ const Navbar = ({ onSearch }) => {
       ? "/profile"
       : "/";
 
-  console.log("Resolved role:", role, "→ profileLink:", profileLink);
-  console.log("localStorage user in Navbar:", localStorage.getItem("user"));
   useEffect(() => {
   if (!isAuthenticated || !localStorage.getItem("token")) return;
 
@@ -52,15 +46,13 @@ const Navbar = ({ onSearch }) => {
         await dispatch(fetchSellerProfile());
       }
     } catch (err) {
-      console.error("Failed to fetch user data:", err);
+      alert( err);
     }
   };
 
   fetchUserData();
 }, [isAuthenticated, role, dispatch]);
 
-
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -70,26 +62,20 @@ const Navbar = ({ onSearch }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  // Search handling
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      if (query.trim()) {
-        console.log("Live search query:", query);
-        dispatch(setSearchTerm(query));
-        dispatch(fetchSearchResults(query))
-        .unwrap()
-      .then((res) => console.log("API results:", res))
-      .catch((err) => console.error("Search error:", err));
-      }
-    }, 500);
+useEffect(() => {
+  const handler = setTimeout(() => {
+    if (query.trim()) {
+      dispatch(setSearchTerm(query));
+      dispatch(fetchSearchResults(query));
+    }
+  }, 500);
 
-    return () => clearTimeout(handler);
-  }, [query, dispatch]);
+  return () => clearTimeout(handler);
+}, [query, dispatch]);
 
   useEffect(() => {
-  // Sync Redux with localStorage for guest users
   const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
-  if (!userInfo && stored.length) { // guest user only
+  if (!userInfo && stored.length) { 
     stored.forEach(product => dispatch(addLocalRecentlyViewed(product)));
   }
 }, [dispatch, userInfo]);
@@ -100,7 +86,6 @@ const Navbar = ({ onSearch }) => {
     dispatch(authLogout());
   }
 }, [isAuthenticated, dispatch]);
-  // Logout
   const handleLogout = () => {
     dispatch(authLogout());
     dispatch({ type: "user/clearUser" });
@@ -112,15 +97,12 @@ const Navbar = ({ onSearch }) => {
     <header className="bg-white shadow-sm sticky top-0 z-[1000] relative">
       <div className="w-full overflow-visible px-3 sm:px-4 lg:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4 py-4 sm:flex-nowrap">
-          {/* Logo */}
           <div className="flex items-center gap-3 flex-shrink-0">
             <Link to="/" className="text-2xl font-extrabold text-indigo-600">
               M-Mart
             </Link>
             {/* <span className="text-xs text-gray-500">— marketplace</span> */}
           </div>
-
-          {/* Search Bar */}
      <div className="relative flex-1 min-w-[200px] w-full sm:w-auto">
       <div className="flex items-center bg-slate-100 rounded-md overflow-hidden">
        <input
@@ -129,9 +111,8 @@ const Navbar = ({ onSearch }) => {
       onChange={(e) => setQuery(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === "Enter" && query.trim()) {
-          saveRecentSearch(query);
-         //navigate(`/search?q=${encodeURIComponent(query)}&selected=${item.productId}`);
-        navigate(`/search?q=${encodeURIComponent(query)}`); // Only query
+         dispatch(saveRecentSearch(query));
+        navigate(`/search?q=${encodeURIComponent(query)}`);
           setQuery("");
         }
       }}
@@ -139,8 +120,6 @@ const Navbar = ({ onSearch }) => {
       className="flex-1 px-4 py-3 bg-transparent outline-none text-sm text-gray-800"
     />
   </div>
-
-  {/* Search Dropdown */}
   {query.trim() && (
     <div className="absolute left-0 top-full mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-80 overflow-y-auto z-[9999]">
       {loading && <p className="p-2 text-gray-500 text-sm">Searching...</p>}
@@ -176,7 +155,7 @@ const Navbar = ({ onSearch }) => {
                   onClick={() => {
                     saveRecentSearch(query);
                      navigate(`/search?q=${encodeURIComponent(query)}&selected=${item.productId}`);
-                     setQuery(""); // clear search after click
+                     setQuery("");
                   }}
                   className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 transition"
                 >
@@ -204,11 +183,7 @@ const Navbar = ({ onSearch }) => {
          </div>
        )}
      </div>
-
-
-          {/* Desktop Right Section */}
           <div className="hidden sm:flex items-center gap-6 flex-shrink-0" ref={dropdownRef}>
-            {/* Guest Links */}
             {!isAuthenticated && (
               <>
                 <Link to="/login" className="text-sm text-gray-700 hover:text-indigo-600">
@@ -219,8 +194,6 @@ const Navbar = ({ onSearch }) => {
                 </Link>
               </>
             )}
-
-            {/* Authenticated */}
             {isAuthenticated && (
               <div className="relative flex items-center gap-2">
                 <button
@@ -257,8 +230,6 @@ const Navbar = ({ onSearch }) => {
                 )}
               </div>
             )}
-
-            {/* Cart */}
             {(role === "ROLE_USER" || role === "GUEST") && (
               <Link
                 to="/cart"
@@ -281,8 +252,6 @@ const Navbar = ({ onSearch }) => {
                 <div className="text-sm">Cart ({cartItems.length})</div>
               </Link>
             )}
-
-            {/* More Options */}
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(dropdownOpen === "more" ? null : "more")}
@@ -319,8 +288,6 @@ const Navbar = ({ onSearch }) => {
               )}
             </div>
           </div>
-
-          {/* Mobile Menu */}
           <div className="sm:hidden relative">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

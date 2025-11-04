@@ -4,23 +4,16 @@ import { fetchProductsByCategory } from "../../api/category";
 const CACHE_TTL = 1000 * 60 * 60 * 24; // 24 hours
 const isLoggedIn = () => !!localStorage.getItem("token");
 
-// Async thunk to load categories
 export const loadCategories = createAsyncThunk(
   "categories/load",
   async (_, { rejectWithValue }) => {
     try {
       const cached = JSON.parse(localStorage.getItem("categories") || "null");
-
-      // Use cache if valid
       if (cached && cached.timestamp && Date.now() - cached.timestamp < CACHE_TTL) {
         return cached.data;
       }
-
-      // Fetch from API
       const res = await fetchProductsByCategory();
-      const categories = res; // assuming fetchCategories() returns the data array
-
-      // Store in localStorage with timestamp
+      const categories = res;
       localStorage.setItem(
         "categories",
         JSON.stringify({ data: categories, timestamp: Date.now() })

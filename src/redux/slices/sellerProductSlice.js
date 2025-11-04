@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getSellerProducts, addProduct, updateProduct, deleteProduct } from "../../api/seller";
 
-// Fetch all products for logged-in seller
 export const fetchSellerProducts = createAsyncThunk(
   "sellerProducts/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await getSellerProducts(); // JWT handles sellerId
+      const res = await getSellerProducts();
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch products");
@@ -14,7 +13,6 @@ export const fetchSellerProducts = createAsyncThunk(
   }
 );
 
-// Add a new product
 export const createProduct = createAsyncThunk(
   "sellerProducts/add",
   async (data, { rejectWithValue }) => {
@@ -27,7 +25,6 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-// Update product
 export const editProduct = createAsyncThunk(
   "sellerProducts/update",
   async ({ id, data }, { rejectWithValue }) => {
@@ -40,7 +37,6 @@ export const editProduct = createAsyncThunk(
   }
 );
 
-// Delete product
 export const removeProduct = createAsyncThunk(
   "sellerProducts/delete",
   async (id, { rejectWithValue }) => {
@@ -73,20 +69,16 @@ const sellerProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch
+ 
       .addCase(fetchSellerProducts.fulfilled, (state, action) => {
         state.products = action.payload;
         state.loading = false;
       })
-
-      // Add
       .addCase(createProduct.fulfilled, (state, action) => {
         state.products.push(action.payload);
         state.loading = false;
         state.success = "Product added successfully";
       })
-
-      // Update
       .addCase(editProduct.fulfilled, (state, action) => {
         state.products = state.products.map(p =>
           p.id === action.payload.id ? action.payload : p
@@ -95,14 +87,12 @@ const sellerProductSlice = createSlice({
         state.success = "Product updated successfully";
       })
 
-      // Delete
       .addCase(removeProduct.fulfilled, (state, action) => {
         state.products = state.products.filter(p => p.id !== action.payload);
         state.loading = false;
         state.success = "Product deleted successfully";
       })
 
-      // Pending
       .addMatcher(
         action => action.type.startsWith("sellerProducts/") && action.type.endsWith("/pending"),
         state => {
@@ -112,7 +102,6 @@ const sellerProductSlice = createSlice({
         }
       )
 
-      // Rejected
       .addMatcher(
         action => action.type.startsWith("sellerProducts/") && action.type.endsWith("/rejected"),
         (state, action) => {

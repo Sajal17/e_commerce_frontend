@@ -11,7 +11,7 @@ import {
 import { getSingleProduct } from "../../api/seller";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 0.5 * 1024 * 1024;
 
 const ProductForm = ({ productId }) => {
   const dispatch = useDispatch();
@@ -32,8 +32,6 @@ const ProductForm = ({ productId }) => {
   });
 
   const [loading, setLoading] = useState(false);
-
-  // Load product data if editing
   useEffect(() => {
     if (!productId) return;
     const fetchProduct = async () => {
@@ -45,7 +43,6 @@ const ProductForm = ({ productId }) => {
           imageUrl: res.data.imageUrl || "",
         });
       } catch (err) {
-        console.error("Error fetching product:", err);
         alert("Failed to load product data.");
       }
     };
@@ -70,8 +67,6 @@ const ProductForm = ({ productId }) => {
       }
 
       setProduct((prev) => ({ ...prev, imageFile: file }));
-
-      // Preview image
       const reader = new FileReader();
       reader.onloadend = () =>
         setProduct((prev) => ({ ...prev, imageUrl: reader.result }));
@@ -116,8 +111,7 @@ const ProductForm = ({ productId }) => {
       dispatch(clearSellerProductState());
       navigate("/seller/dashboard/products");
     } catch (err) {
-      console.error("Error submitting product:", err);
-      alert(err?.message || "Something went wrong.");
+      alert(err);
     } finally {
       setLoading(false);
     }
@@ -134,7 +128,6 @@ const ProductForm = ({ productId }) => {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
       >
-        {/* Name */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Product Name</label>
           <input
@@ -146,8 +139,6 @@ const ProductForm = ({ productId }) => {
             className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        {/* Brand */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Brand</label>
           <input
@@ -160,7 +151,6 @@ const ProductForm = ({ productId }) => {
           />
         </div>
 
-        {/* Category */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Category</label>
           <select
@@ -183,7 +173,6 @@ const ProductForm = ({ productId }) => {
           </select>
         </div>
 
-        {/* Price */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Price (₹)</label>
           <input
@@ -197,7 +186,6 @@ const ProductForm = ({ productId }) => {
           />
         </div>
 
-        {/* Quantity */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Quantity</label>
           <input
@@ -211,7 +199,6 @@ const ProductForm = ({ productId }) => {
           />
         </div>
 
-        {/* Release Date */}
         <div className="flex flex-col">
           <label className="font-semibold mb-1">Release Date</label>
           <input
@@ -222,8 +209,6 @@ const ProductForm = ({ productId }) => {
             className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        {/* Description */}
         <div className="flex flex-col md:col-span-2">
           <label className="font-semibold mb-1">Description</label>
           <textarea
@@ -235,7 +220,6 @@ const ProductForm = ({ productId }) => {
           />
         </div>
 
-        {/* Image */}
         <div className="flex flex-col md:col-span-2">
           <label className="font-semibold mb-1">Product Image</label>
           {product.imageUrl && (
@@ -254,7 +238,6 @@ const ProductForm = ({ productId }) => {
           />
         </div>
 
-        {/* Available */}
         <div className="flex items-center gap-3 md:col-span-2">
           <input
             type="checkbox"
@@ -266,7 +249,6 @@ const ProductForm = ({ productId }) => {
           <label className="font-medium">Product Available</label>
         </div>
 
-        {/* Submit */}
         <div className="md:col-span-2 mt-4">
           <button
             type="submit"

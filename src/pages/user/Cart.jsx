@@ -9,12 +9,10 @@ const Cart = () => {
   const { items: cartItems, loading, error } = useSelector((state) => state.cart);
   const navigate = useNavigate();
 
-  // Load cart on mount
   useEffect(() => {
     dispatch(loadCart());
   }, [dispatch]);
 
-  // Calculate total
   const totalPrice = useMemo(
     () =>
       cartItems.reduce(
@@ -24,7 +22,6 @@ const Cart = () => {
     [cartItems]
   );
 
-  // Handle checkout
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
 
@@ -51,7 +48,6 @@ const Cart = () => {
         <div className="text-center text-gray-500 py-20">Your cart is empty</div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT: Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => {
               const key = item.id || item._id || item.productId;
@@ -59,7 +55,6 @@ const Cart = () => {
             })}
           </div>
 
-          {/* RIGHT: Price Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-md p-6 sticky top-20">
               <h3 className="text-lg font-semibold mb-4 text-gray-800">

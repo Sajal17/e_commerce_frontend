@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import { getOwnSellerProfile, updateSellerProfile,deleteSellerProfile } from "../../api/seller";
-
 const isLoggedIn = () => !!localStorage.getItem("token");
-
-// Fetch seller details
 export const fetchSellerProfile = createAsyncThunk(
   "seller/fetch",
   async (_, { rejectWithValue }) => {
@@ -16,7 +13,6 @@ export const fetchSellerProfile = createAsyncThunk(
   }
 );
 
-// Update seller profile
 export const updateSeller = createAsyncThunk(
   "seller/update",
   async ( data, { rejectWithValue }) => {
@@ -58,7 +54,6 @@ const sellerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch seller
       .addCase(fetchSellerProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -66,14 +61,13 @@ const sellerSlice = createSlice({
       .addCase(fetchSellerProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        //  Store in localStorage only if necessary
         if (action.payload) localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(fetchSellerProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // Update seller
+    
       .addCase(updateSeller.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -81,7 +75,7 @@ const sellerSlice = createSlice({
       .addCase(updateSeller.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        // Store in localStorage only if necessary
+        
         if (action.payload) localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateSeller.rejected, (state, action) => {
@@ -90,8 +84,8 @@ const sellerSlice = createSlice({
       })
      .addCase(deleteSeller.fulfilled, (state) => {
   state.loading = false;
-  state.data = null; // clear seller data
-  localStorage.removeItem("user"); // remove user from localStorage
+  state.data = null;
+  localStorage.removeItem("user"); 
 })
 .addCase(deleteSeller.rejected, (state, action) => {
   state.loading = false;
@@ -100,7 +94,6 @@ const sellerSlice = createSlice({
   },
 });
 
-//  Memoized selector for seller data
 export const selectSeller = (state) => state.seller.data;
 
 export const { clearSeller } = sellerSlice.actions;

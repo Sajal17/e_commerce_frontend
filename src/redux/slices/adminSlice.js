@@ -11,7 +11,6 @@ import {
   approveSeller,
 } from "../../api/admin";
 
-// Generic handler to wrap API calls
 const handleApiCall = async (apiCall, args, { rejectWithValue }) => {
   try {
     const res = await apiCall(...args);
@@ -21,7 +20,6 @@ const handleApiCall = async (apiCall, args, { rejectWithValue }) => {
   }
 };
 
-// ✅ Async thunks
 export const loadUsers = createAsyncThunk("admin/loadUsers", async (_, ctx) =>
   handleApiCall(fetchAllUsers, [], ctx)
 );
@@ -55,7 +53,6 @@ export const approveSellerAccount = createAsyncThunk(
   async (sellerId, ctx) => handleApiCall(approveSeller, [sellerId], ctx)
 );
 
-// ✅ Slice
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
@@ -76,7 +73,7 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Users
+      
       .addCase(loadUsers.fulfilled, (state, action) => {
         state.users = action.payload;
       })
@@ -84,7 +81,6 @@ const adminSlice = createSlice({
         state.users = state.users.filter((u) => u.id !== action.payload);
       })
 
-      // Sellers
       .addCase(loadSellers.fulfilled, (state, action) => {
         state.sellers = action.payload;
       })
@@ -97,7 +93,6 @@ const adminSlice = createSlice({
         );
       })
 
-      // Products
       .addCase(loadProducts.fulfilled, (state, action) => {
         state.products = action.payload;
       })
@@ -105,7 +100,6 @@ const adminSlice = createSlice({
         state.products = state.products.filter((p) => p.id !== action.payload);
       })
 
-      // Orders
       .addCase(loadOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       })
@@ -115,7 +109,6 @@ const adminSlice = createSlice({
         );
       })
 
-      // Common loading/error handling
       .addMatcher(
         (a) => a.type.startsWith("admin/") && a.type.endsWith("/pending"),
         (state) => {

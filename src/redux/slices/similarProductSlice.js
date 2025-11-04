@@ -1,15 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import publicAPI from "../../api/publicAPI"; // or your API helper
+import publicAPI from "../../api/publicAPI";
 import API from "../../api/axiosInstance";
 
 const isLoggedIn = () => !!localStorage.getItem("token");
-
-// Fetch similar products by category
 export const fetchSimilarProducts = createAsyncThunk(
   "similar/fetch",
   async (category, { rejectWithValue }) => {
     try {
-      if (!category) return []; // handle undefined category
+      if (!category) return [];
       const client = isLoggedIn() ? API : publicAPI;
       const response = await client.get(`/public/products?category=${category}`);
       return response.data;

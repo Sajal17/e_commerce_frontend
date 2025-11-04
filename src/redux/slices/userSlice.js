@@ -1,10 +1,8 @@
-// // redux/slices/userSlice.js
 import { createSlice, createAsyncThunk ,createSelector} from "@reduxjs/toolkit";
 import { getUserProfile, updateUserProfile } from "../../api/user";
 
 const isLoggedIn = () => !!localStorage.getItem("token");
 
-// Async Thunks
 export const fetchProfile = createAsyncThunk("user/fetchProfile", async (_, { rejectWithValue }) => {
   try { if (!isLoggedIn()) return null; 
     return (await getUserProfile()).data; }
@@ -16,7 +14,6 @@ export const updateProfile = createAsyncThunk("user/updateProfile", async (data,
   catch (err) { return rejectWithValue(err.response?.data?.message || "Update failed"); }
 });
 
-// Slice
 const userSlice = createSlice({
   name: "user",
   initialState: { currentUser: null, loading: false, error: null },

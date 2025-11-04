@@ -7,22 +7,19 @@ export const fetchSearchResults = createAsyncThunk(
   "search/fetchResults",
   async (query, { rejectWithValue }) => {
     try {
-      // Guest cache
       if (!isLoggedIn()) {
         const cachedSearch = JSON.parse(localStorage.getItem("searchCache")) || {};
         if (cachedSearch[query]) return cachedSearch[query];
       }
 
-      const results = await searchProducts(query); //  this is already the array
-
-      // Save for guest
+      const results = await searchProducts(query);
       if (!isLoggedIn()) {
         const cachedSearch = JSON.parse(localStorage.getItem("searchCache")) || {};
         cachedSearch[query] = results;
         localStorage.setItem("searchCache", JSON.stringify(cachedSearch));
       }
 
-      return results; //  return the array directly
+      return results;
     } catch (err) {
       return rejectWithValue(err.message || "Search failed");
     }
@@ -31,14 +28,9 @@ export const fetchSearchResults = createAsyncThunk(
 
 const saveRecentSearch = (query) => {
   let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
-
-  // Remove duplicate if exists
   recent = recent.filter((q) => q.toLowerCase() !== query.toLowerCase());
 
-  // Add latest first
   recent.unshift(query);
-
-  // Keep only last 10
   recent = recent.slice(0, 10);
 
   localStorage.setItem("recentSearches", JSON.stringify(recent));

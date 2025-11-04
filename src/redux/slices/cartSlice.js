@@ -19,7 +19,7 @@ const findMatch = (item, id) => {
   const normalizedId = String(id).trim();
   return normalizedItemId === normalizedId;
 };
-// 🟩 Always normalize data shape
+
 const normalize = (data) => {
   if (!data) return [];
   if (Array.isArray(data)) return data;
@@ -29,7 +29,7 @@ const normalize = (data) => {
   if (Array.isArray(data?.cart?.items)) return data.cart.items;
   return [];
 };
-// 🟩 LOAD CART
+
 export const loadCart = createAsyncThunk(
   "cart/load",
   async (_, { rejectWithValue }) => {
@@ -38,8 +38,6 @@ export const loadCart = createAsyncThunk(
         const guestCart = JSON.parse(localStorage.getItem("cart")) || [];
         let userCart = (await getCart()).data;
         userCart = normalize(userCart);
-
-        // Merge guest + user
         const merged = [...userCart];
         guestCart.forEach((item) => {
           const exist = merged.find((i) => findMatch(i, item.id));
@@ -59,7 +57,6 @@ export const loadCart = createAsyncThunk(
   }
 );
 
-// ADD ITEM
 export const addItemToCart = createAsyncThunk(
   "cart/add",
   async (item, { rejectWithValue }) => {
@@ -82,21 +79,15 @@ export const addItemToCart = createAsyncThunk(
   }
 );
 
-// Increase quantity
 export const increaseQuantity = createAsyncThunk(
   "cart/increase",
   async (productId, { rejectWithValue, getState }) => {
     try {
       const { cart } = getState();
       const items = cart.items || [];
-
-      console.log("🧩 increaseQuantity called with:", productId);
-      console.log("🧩 Current items:", items);
-
       const item = items.find((i) => findMatch(i, productId));
 
       if (!item) {
-        console.warn("⚠️ No matching item found for:", productId);
         return rejectWithValue("Item not found");
       }
 
@@ -106,9 +97,6 @@ export const increaseQuantity = createAsyncThunk(
             ? { ...i, quantity: i.quantity + 1 }
             : i
         );
-
-        console.log("⬆️ Increasing:", productId);
-        console.log("🆕 Updated cart:", updated);
 
         localStorage.setItem("cart", JSON.stringify(updated));
         return updated;
@@ -152,7 +140,6 @@ export const decreaseQuantity = createAsyncThunk(
 );
 
 
-// REMOVE ITEM
 export const removeLocalItem = createAsyncThunk(
   "cart/remove",
   async (productId, { rejectWithValue }) => {
@@ -173,7 +160,6 @@ export const removeLocalItem = createAsyncThunk(
   }
 );
 
-// CLEAR CART
 export const clearCartAsync = createAsyncThunk(
   "cart/clear",
   async (_, { rejectWithValue }) => {

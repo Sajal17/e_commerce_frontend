@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getRecentlyViewed, addRecentlyViewed } from "../../api/user";
 
-// Helper: sanitize product data safely
 const sanitizeProducts = (products) =>
   Array.isArray(products)
     ? products
@@ -9,17 +8,10 @@ const sanitizeProducts = (products) =>
         .map(p => ({ ...p, id: p.id || p._id || p.productId }))
     : [];
 
-//  Load from localStorage
 const loadLocal = () =>
   sanitizeProducts(JSON.parse(localStorage.getItem("recentlyViewed") || "[]"));
-
-//  Save to localStorage
 const saveLocal = (items) =>
   localStorage.setItem("recentlyViewed", JSON.stringify(items));
-
-
-
-// Load recently viewed from server (only if logged in)
 export const loadRecentlyViewed = createAsyncThunk(
   "recentlyViewed/load",
   async (_, { rejectWithValue }) => {
@@ -42,7 +34,6 @@ const recentlyViewedSlice = createSlice({
     error: null,
   },
   reducers: {
-    // Guest/local mode
     addLocalRecentlyViewed: (state, action) => {
       const product = sanitizeProducts([action.payload])[0];
       if (!product) return;

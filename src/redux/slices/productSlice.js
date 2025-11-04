@@ -1,23 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchProducts, fetchProductById } from "../../api/products";
 
-// Helper: check if user is logged in
 const isLoggedIn = () => !!localStorage.getItem("token");
 
-// Load all products (public)
 export const loadProducts = createAsyncThunk(
   "products/load",
   async (_, { rejectWithValue }) => {
     try {
-      // Guest: return cached products if available
       if (!isLoggedIn()) {
         const cached = JSON.parse(localStorage.getItem("products"));
         if (cached?.length) return cached;
       }
-
-      // Fetch from backend
       const res = await fetchProducts();
-      // Cache for guests
+      
       if (!isLoggedIn()) localStorage.setItem("products", JSON.stringify(res.data));
 
       return res.data;
@@ -27,7 +22,6 @@ export const loadProducts = createAsyncThunk(
   }
 );
 
-// Load single product by ID (public)
 export const loadProductById = createAsyncThunk(
   "products/loadById",
   async (id, { rejectWithValue }) => {
@@ -40,9 +34,6 @@ export const loadProductById = createAsyncThunk(
   }
 );
 
-// -----------------------------
-// Slice
-// -----------------------------
 const productSlice = createSlice({
   name: "products",
   initialState: {
@@ -61,7 +52,7 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Load all products
+      
       .addCase(loadProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,7 +65,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Load single product by ID
+      
       .addCase(loadProductById.pending, (state) => {
         state.loading = true;
       })

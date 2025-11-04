@@ -99,8 +99,6 @@ const Checkout = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">Checkout</h1>
-
-      {/* Address Section */}
       <div className="bg-white rounded-lg shadow-sm mb-4 p-4">
         <h2 className="text-lg font-semibold mb-2"> Delivery Address</h2>
 
@@ -167,8 +165,6 @@ const Checkout = () => {
           </>
         )}
       </div>
-
-      {/* Payment Section */}
       {activeStep >= 2 && (
         <div className="bg-white rounded-lg shadow-sm mb-4 p-4">
           <h2 className="text-lg font-semibold mb-2"> Payment Method</h2>
@@ -181,7 +177,6 @@ const Checkout = () => {
         </div>
       )}
 
-      {/* Review Section */}
       {activeStep === 3 && (
         <div className="bg-white rounded-lg shadow-sm p-4">
           <h2 className="text-lg font-semibold mb-2">3️⃣ Review & Place Order</h2>

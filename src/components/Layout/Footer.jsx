@@ -10,10 +10,7 @@ const Footer = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Grid Sections */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-
-          {/* About / Company */}
           <div>
             <h3 className="text-white text-lg font-bold mb-3">M-Mart</h3>
             <p className="text-sm text-gray-400">
@@ -26,7 +23,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-white text-md font-semibold mb-3">Quick Links</h4>
             <ul className="space-y-2 text-sm">
@@ -37,7 +33,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Customer Service */}
           <div>
             <h4 className="text-white text-md font-semibold mb-3">Customer Service</h4>
             <ul className="space-y-2 text-sm">
@@ -47,8 +42,6 @@ const Footer = () => {
               <li><Link to="#" className="hover:text-white transition">Contact Us</Link></li>
             </ul>
           </div>
-
-          {/* Follow / Social */}
           <div>
             <h4 className="text-white text-md font-semibold mb-3">Follow Us</h4>
             <div className="flex gap-4 mt-2 text-gray-400">
@@ -67,8 +60,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        {/* Bottom Section */}
         <div className="border-t border-gray-700 mt-8 pt-4 text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()} M-Mart. All rights reserved.
         </div>
