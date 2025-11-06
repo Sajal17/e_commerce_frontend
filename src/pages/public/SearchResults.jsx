@@ -4,6 +4,7 @@ import ProductCard from "../../components/products/ProductCard";
 import ProductCardH from "../../components/products/ProductCardH";
 import { fetchSimilarProducts } from "../../redux/slices/similarProductSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { loadProductById } from "../../redux/slices/productSlice";
 import { fetchSearchResults } from "../../redux/slices/searchSlice";
 
 const SearchResults = () => {
@@ -28,14 +29,27 @@ const category = selectedProduct?.category;
     if (query) dispatch(fetchSearchResults(query));
   }, [dispatch, query]);
 
-  useEffect(() => {
-    if (results.length && selectedProductId) {
-      const product = results.find((p) => Number(p.productId) === selectedProductId);
-      setSelectedProduct(product || null);
-    } else {
-      setSelectedProduct(null);
-    }
-  }, [results, selectedProductId]);
+ useEffect(() => {
+  if (!selectedProductId) {
+    setSelectedProduct(null);
+    return;
+  }
+  const product = results.find((p) => Number(p.productId) === selectedProductId);
+
+  if (product) {
+    setSelectedProduct(product);
+  } else {
+    dispatch(loadProductById(selectedProductId))
+      .unwrap()
+      .then((data) => {
+        if (data) setSelectedProduct(data);
+      })
+      .catch((err) => {
+        setSelectedProduct(null);
+      });
+  }
+}, [results, selectedProductId, dispatch]);
+
 
   useEffect(() => {
     setSelectedBrands([]);
@@ -46,9 +60,6 @@ const category = selectedProduct?.category;
   if (category) dispatch(fetchSimilarProducts(category));
 }, [category, dispatch]);
 useEffect(() => {
-  console.log(" Results:", results);
-  console.log(" Selected Product:", selectedProduct);
-  console.log(" Same Category Results:", sameCategoryResults);
 }, [results, selectedProduct, sameCategoryResults]);
 
   const filteredByName = useMemo(() => {

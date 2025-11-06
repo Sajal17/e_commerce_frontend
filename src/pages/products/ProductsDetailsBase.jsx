@@ -18,53 +18,60 @@ const ProductDetailsBase = ({ onProductLoad, children, showRecentlyViewed = fals
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let isMounted = true;
-    if (!id) return;
+useEffect(() => {
+  let isMounted = true;
+  if (!id) return;
 
-    const loadProduct = async () => {
-      setLoading(true);
-      try {
-        const productData = await fetchProductById(id);
-        if (!isMounted) return;
+  const loadProduct = async () => {
+    setLoading(true);
+    setError(null);
+    setProduct(null);
 
-        const normalizedProduct = {
-          ...productData,
-          id: productData.id || productData._id || productData.productId,
-        };
+    try {
+      const res = await fetchProductById(id);
+      const productData = res.data || res;
 
-        setProduct(normalizedProduct);
-        const firstImg =
-          normalizedProduct.images?.[0] ||
-          normalizedProduct.imageName ||
-          normalizedProduct.imageUrl ||
-          "/default_product.png";
-        setSelectedImage(firstImg);
+      if (!isMounted) return;
 
-        if (showRecentlyViewed) {
-          const stored = JSON.parse(localStorage.getItem("recentlyViewedProducts") || "[]");
-          const filtered = stored.filter((p) => p.id !== normalizedProduct.id);
-          const updated = [normalizedProduct, ...filtered].slice(0, 10);
-          localStorage.setItem("recentlyViewedProducts", JSON.stringify(updated));
-          setRecentlyViewed(updated);
-        }
+      if (!productData) throw new Error("Product not found");
 
-        if (onProductLoad) onProductLoad(normalizedProduct);
-      } catch (err) {
-        if (isMounted) {
-          console.error("Error fetching product:", err);
-          setError("Failed to load product");
-        }
-      } finally {
-        if (isMounted) setLoading(false);
+      const normalizedProduct = {
+        ...productData,
+        id: productData.id || productData._id || productData.productId,
+      };
+
+      setProduct(normalizedProduct);
+
+      const firstImg =
+        normalizedProduct.images?.[0] ||
+        normalizedProduct.imageName ||
+        normalizedProduct.imageUrl ||
+        "/default_product.png";
+      setSelectedImage(firstImg);
+
+      if (showRecentlyViewed) {
+        const stored = JSON.parse(localStorage.getItem("recentlyViewedProducts") || "[]");
+        const filtered = stored.filter((p) => p.id !== normalizedProduct.id);
+        const updated = [normalizedProduct, ...filtered].slice(0, 10);
+        localStorage.setItem("recentlyViewedProducts", JSON.stringify(updated));
+        setRecentlyViewed(updated);
       }
-    };
 
-    loadProduct();
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
+      onProductLoad?.(normalizedProduct);
+    } catch (err) {
+      console.error("Error fetching product:", err);
+      if (isMounted) setError("Failed to load product");
+    } finally {
+      if (isMounted) setLoading(false);
+    }
+  };
+
+  loadProduct();
+  return () => {
+    isMounted = false;
+  };
+}, [id, showRecentlyViewed, onProductLoad]);
+
 
   const getImageUrl = (img) => {
     if (!img) return "/default_product.png";
@@ -80,10 +87,10 @@ const ProductDetailsBase = ({ onProductLoad, children, showRecentlyViewed = fals
     <main className="pt-4 px-4 lg:pt-10">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10">
         
-        {/* ✅ LEFT SIDE - Images Section */}
+        {/* LEFT SIDE - Images Section */}
         <div className="w-full lg:w-1/3 flex flex-col gap-4 lg:sticky lg:top-24">
           
-          {/* ✅ Image Section: Thumbnails on left (desktop), below on mobile */}
+          {/* Image Section: Thumbnails on left (desktop), below on mobile */}
           <div className="flex flex-col sm:flex-col lg:flex-row gap-4 items-start">
             {/* Thumbnails */}
             <div
