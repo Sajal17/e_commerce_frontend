@@ -1,11 +1,3 @@
-window.onerror = (msg, src, line, col, err) => {
-  console.group("🚨 Global Error Caught");
-  console.error("Message:", msg);
-  console.error("Source:", src);
-  console.error("Line:", line, "Column:", col);
-  console.error("Error object:", err);
-  console.groupEnd();
-};
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
