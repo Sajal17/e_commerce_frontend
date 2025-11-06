@@ -20,21 +20,22 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
   return (
     <div className="flex gap-4 p-5 bg-white dark:bg-gray-900 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer">
       
-      {/* 🖼️ Left Image */}
+      {/* Left Image */}
       <Link
-        to={`/product/${normalizedProduct.id}`}
-        onClick={() => addToRecentlyViewed(normalizedProduct)}
-        className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg"
-      >
-        <img
-          src={imgSrc}
-          alt={normalizedProduct.name}
-          className="object-contain w-full h-full"
-          onError={() => setImgSrc("/default_product.png")}
-        />
-      </Link>
+  to={`/product/${normalizedProduct.id}`}
+  onClick={() => addToRecentlyViewed(normalizedProduct)}
+  className="relative flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 
+             bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden"
+>
+  <img
+    src={imgSrc}
+    alt={normalizedProduct.name}
+    onError={() => setImgSrc("/default_product.png")}
+    className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+  />
+</Link>
 
-      {/* 🧾 Middle Section */}
+      {/* Middle Section */}
       <div className="flex flex-col justify-between flex-1 pl-4 pr-2 translate-x-10">
         <Link
           to={`/product/${normalizedProduct.id}`}
@@ -54,7 +55,7 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
           </p>
         )}
 
-        {/* 🏷️ Add extra product properties */}
+        {/*  Add extra product properties */}
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Category: <span className="font-medium">{normalizedProduct.category || "N/A"}</span>
         </p>
@@ -62,7 +63,7 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
           Stock: <span className="font-medium">{normalizedProduct.quantity || "N/A"}</span>
         </p>
 
-        {/* ⭐ Rating */}
+        {/* Rating */}
         <div className="flex items-center gap-1 mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
@@ -71,7 +72,7 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
         </div>
       </div>
 
-      {/* 💰 Right Price & Cart */}
+      {/* Right Price & Cart */}
       <div className="flex flex-col justify-between items-end min-w-[100px] -translate-x-5">
         <p className="text-lg md:text-xl font-bold text-green-600">
           ₹ {normalizedProduct.price?.toLocaleString() || "0"}
