@@ -92,7 +92,6 @@ const EditProduct = () => {
   return (
     <main className="min-h-[80vh] bg-gray-50 dark:bg-gray-900 px-4">
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:flex gap-8">
-        {/* Image Section */}
         <div className="md:w-1/3 flex flex-col items-center">
           <h3 className="text-xl font-semibold mb-4">Product Image</h3>
           <div className="w-full h-64 mb-4 border rounded-lg overflow-hidden">
@@ -111,12 +110,9 @@ const EditProduct = () => {
                        cursor-pointer border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2"
           />
         </div>
-
-        {/* Form Section */}
         <div className="md:w-2/3">
           <h2 className="text-2xl font-bold mb-6 text-center md:text-left">Edit Product</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
             <div>
               <label className="block font-semibold mb-1">Name</label>
               <input
@@ -129,8 +125,6 @@ const EditProduct = () => {
                 className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
-            {/* Brand */}
             <div>
               <label className="block font-semibold mb-1">Brand</label>
               <input
@@ -143,8 +137,6 @@ const EditProduct = () => {
                 className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
-            {/* Category */}
             <div>
               <label className="block font-semibold mb-1">Category</label>
               <select
@@ -166,8 +158,6 @@ const EditProduct = () => {
               <option value="Books">Books</option>
               </select>
             </div>
-
-            {/* Price & Quantity */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block font-semibold mb-1">Price</label>
@@ -195,8 +185,6 @@ const EditProduct = () => {
                 />
               </div>
             </div>
-
-            {/* Available */}
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -206,8 +194,6 @@ const EditProduct = () => {
               />
               <label className="font-medium">Available</label>
             </div>
-
-            {/* Description */}
             <div>
               <label className="block font-semibold mb-1">Description</label>
               <textarea
@@ -219,8 +205,6 @@ const EditProduct = () => {
                 rows={4}
               />
             </div>
-
-            {/* Release Date */}
             <div>
               <label className="block font-semibold mb-1">Release Date</label>
               <input

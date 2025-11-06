@@ -1,4 +1,3 @@
-// src/pages/seller/SellerOrders.jsx
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,23 +25,15 @@ const SellerOrders = () => {
   return (
     <div className="p-6 bg-white rounded-2xl shadow">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Seller Orders</h2>
-
-      {/* 🔄 Loading */}
       {loading && <p className="text-blue-500">Loading orders...</p>}
-
-      {/* ❌ Error */}
       {error && (
         <p className="text-red-600 bg-red-50 p-2 rounded-md border border-red-200">
           {error}
         </p>
       )}
-
-      {/* 🕳️ Empty state */}
       {!loading && !error && orderList.length === 0 && (
         <p className="text-gray-500 text-sm">No orders found.</p>
       )}
-
-      {/* ✅ Orders Table */}
       {orderList.length > 0 && (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-200 text-sm">

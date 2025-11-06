@@ -5,8 +5,6 @@ import { addToRecentlyViewed } from "../../utils";
 
 const ProductCard = React.memo(({ product, cartItem, onAddToCart }) => {
   if (!product) return null;
-
-  // Normalize ID once
   const normalizedProduct = {
     ...product,
     id: product.id || product._id || product.productId
@@ -27,7 +25,6 @@ const ProductCard = React.memo(({ product, cartItem, onAddToCart }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col">
-      {/* Image */}
       <Link
         to={`/product/${normalizedProduct.id}`}
         onClick={() => addToRecentlyViewed(normalizedProduct)}
@@ -40,8 +37,6 @@ const ProductCard = React.memo(({ product, cartItem, onAddToCart }) => {
           className="absolute top-0 left-0 w-full h-full object-contain transition-transform duration-300 hover:scale-105"
         />
       </Link>
-
-      {/* Content */}
       <div className="p-3 flex flex-col flex-1">
         <Link
           to={`/product/${normalizedProduct.id}`}
@@ -60,23 +55,17 @@ const ProductCard = React.memo(({ product, cartItem, onAddToCart }) => {
             by {normalizedProduct.brand}
           </p>
         )}
-
-        {/* Rating */}
         <div className="flex items-center mb-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
           ))}
         </div>
-
-        {/* Price */}
         <div className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           ₹ {normalizedProduct.price?.toLocaleString() || "N/A"}
         </div>
-
-        {/* Add to Cart */}
         <button
           onClick={(e) => {
-          e.stopPropagation(); // ✅ correct place
+          e.stopPropagation();
           onAddToCart(normalizedProduct);
           }}
           className={`w-full py-2 rounded-lg font-medium text-white transition-all duration-300 ${

@@ -19,8 +19,6 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
 
   return (
     <div className="flex gap-4 p-5 bg-white dark:bg-gray-900 rounded-xl shadow-md hover:shadow-xl transition cursor-pointer">
-      
-      {/* Left Image */}
       <Link
   to={`/product/${normalizedProduct.id}`}
   onClick={() => addToRecentlyViewed(normalizedProduct)}
@@ -34,8 +32,6 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
     className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 hover:scale-105"
   />
 </Link>
-
-      {/* Middle Section */}
       <div className="flex flex-col justify-between flex-1 pl-4 pr-2 translate-x-10">
         <Link
           to={`/product/${normalizedProduct.id}`}
@@ -54,16 +50,12 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
             Brand: <span className="font-medium">{normalizedProduct.brand}</span>
           </p>
         )}
-
-        {/*  Add extra product properties */}
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Category: <span className="font-medium">{normalizedProduct.category || "N/A"}</span>
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Stock: <span className="font-medium">{normalizedProduct.quantity || "N/A"}</span>
         </p>
-
-        {/* Rating */}
         <div className="flex items-center gap-1 mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
@@ -71,8 +63,6 @@ const ProductCardH = ({ product, cartItem, onAddToCart }) => {
           <span className="text-xs text-gray-600 dark:text-gray-300">(reviews)</span>
         </div>
       </div>
-
-      {/* Right Price & Cart */}
       <div className="flex flex-col justify-between items-end min-w-[100px] -translate-x-5">
         <p className="text-lg md:text-xl font-bold text-green-600">
           ₹ {normalizedProduct.price?.toLocaleString() || "0"}

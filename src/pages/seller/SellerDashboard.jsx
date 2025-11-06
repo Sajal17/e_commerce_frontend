@@ -11,8 +11,6 @@ const SellerDashboard = () => {
   useEffect(() => {
     if (seller?.id) dispatch(fetchSellerProducts(seller.id));
   }, [dispatch, seller]);
-
-  // Absolute paths to avoid relative URL issues
   const tabs = [
     { label: "Profile", path: "/seller/dashboard/profile" },
     { label: "Products", path: "/seller/dashboard/products" },
@@ -23,7 +21,6 @@ const SellerDashboard = () => {
 
   return (
     <main className="pt-10 max-w-7xl mx-auto p-4 flex gap-4">
-      {/* Sidebar */}
       <aside className="w-60 bg-white rounded-xl shadow p-4 flex flex-col gap-2 sticky top-20 h-fit">
         {tabs.map((tab) => (
           <NavLink
@@ -39,10 +36,8 @@ const SellerDashboard = () => {
           </NavLink>
         ))}
       </aside>
-
-      {/* Main Content */}
       <section className="flex-1">
-        <Outlet /> {/* Nested routes render here */}
+        <Outlet />
       </section>
     </main>
   );

@@ -9,13 +9,10 @@ const SellerProfile = () => {
   const { data: seller, loading, error } = useSelector((state) => state.seller);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    // User info
     firstName: "",
     lastName: "",
     email: "",
     phoneNumber: "",
-    
-    // Seller info
     companyName: "",
     businessAddress: "",
     bankAccountNumber: "",
@@ -58,10 +55,10 @@ const SellerProfile = () => {
  const handleDelete = () => {
   if (window.confirm("Are you sure?")) {
     dispatch(deleteSeller())
-      .unwrap() // ensures proper promise handling in Redux Toolkit
+      .unwrap()
       .then(() => {
-        dispatch(logout());  // clears auth state
-        navigate("/login");  // redirect after deletion
+        dispatch(logout());
+        navigate("/login");
       })
       .catch((err) => console.error(err));
   }
@@ -78,7 +75,6 @@ const SellerProfile = () => {
    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
       <h2 className="text-2xl font-bold mb-6 text-gray-900">Seller Profile</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* User Info */}
         <div className="grid grid-cols-2 gap-4">
           <input
             type="text"
@@ -113,8 +109,6 @@ const SellerProfile = () => {
           onChange={handleChange}
           className="w-full px-3 py-2 rounded border border-gray-300 bg-gray-50"
         />
-
-        {/* Seller Info */}
         <input
           type="text"
           name="companyName"
@@ -177,7 +171,7 @@ const SellerProfile = () => {
   </button>
 
  <button
-  type="button"  // Important: prevents form submission
+  type="button"
   onClick={handleDelete}
   className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-medium"
 >

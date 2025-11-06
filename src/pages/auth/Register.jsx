@@ -14,7 +14,7 @@ function Register() {
     phoneNumber: "",
     password: "",
     confirmPassword: "",
-    role: "user", // default role
+    role: "user",
   });
 
   const [error, setError] = useState("");
@@ -52,8 +52,6 @@ function Register() {
       setError("Passwords do not match");
       return;
     }
-     console.log("Registering as:", form.role);
-     console.log("Payload:", form);
     try {
        if (form.role === "seller") {
         await dispatch(registerNewSeller(form)).unwrap();
@@ -78,7 +76,6 @@ function Register() {
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Username */}
           <div>
             <label htmlFor="username" className="block text-gray-700 mb-1">
               Username
@@ -94,8 +91,6 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
           </div>
-
-          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-gray-700 mb-1">
               Email
@@ -110,8 +105,6 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
           </div>
-
-          {/* Phone */}
           <div>
             <label htmlFor="phoneNumber" className="block text-gray-700 mb-1">
               Phone Number
@@ -126,8 +119,6 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
           </div>
-
-          {/* Password */}
           <div className="relative">
             <label htmlFor="password" className="block text-gray-700 mb-1">
               Password
@@ -151,8 +142,6 @@ function Register() {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-
-          {/* Confirm Password */}
           <div>
             <label htmlFor="confirmPassword" className="block text-gray-700 mb-1">
               Confirm Password
@@ -168,8 +157,6 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
             />
           </div>
-
-          {/* Role selection */}
           <div className="flex gap-4 items-center mt-2">
             <label className="flex items-center gap-2 cursor-pointer">
               <input

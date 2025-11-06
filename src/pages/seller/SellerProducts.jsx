@@ -13,8 +13,6 @@ const SellerProducts = () => {
   const { products, loading, error } = useSelector(
     (state) => state.sellerProducts
   );
-
-  // Fetch products on mount
   useEffect(() => {
     dispatch(fetchSellerProducts());
   }, [dispatch]);
@@ -31,7 +29,7 @@ const SellerProducts = () => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       console.log("Deleting product ID:", id);
       dispatch(removeProduct(id));
-      dispatch(fetchSellerProducts()); // Refresh list after delete
+      dispatch(fetchSellerProducts());
     }
   };
 

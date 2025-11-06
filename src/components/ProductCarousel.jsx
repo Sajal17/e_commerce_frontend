@@ -1,6 +1,5 @@
-// src/components/ProductCarousel.jsx
 import React from "react";
-import ProductCardDetailed from "./ProductCardDetailed"; // Flipkart-style card
+import ProductCardDetailed from "./ProductCardDetailed";
 
 const ProductCarousel = ({ title, products = [], cartItems = [], onAddToCart }) => {
   if (!products || products.length === 0) return null;
@@ -8,8 +7,6 @@ const ProductCarousel = ({ title, products = [], cartItems = [], onAddToCart }) 
   return (
     <div className="my-6">
       <h2 className="text-xl md:text-2xl font-bold mb-4">{title}</h2>
-
-      {/* Horizontal Scroll Container */}
       <div className="flex gap-4 overflow-x-auto py-2 px-1 snap-x snap-mandatory scrollbar-hide">
         {products.map(product => {
           const cartItem = cartItems.find(item => item.id === product.id);

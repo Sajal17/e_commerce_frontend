@@ -1,4 +1,3 @@
-// src/components/products/ProductThumbnail.jsx
 import React from "react";
 
 const ProductThumbnail = ({ images, selectedImage, onSelect }) => {

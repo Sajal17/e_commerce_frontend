@@ -3,7 +3,6 @@ import publicAPI from "./publicAPI";
 
 const isLoggedIn = () => !!localStorage.getItem("token");
 
-// Public
 export const fetchProductsByCategory = async (category) => {
   if (!category) throw new Error("Category is required");
   try {
@@ -19,14 +18,3 @@ export const fetchProductsByCategory = async (category) => {
     throw err;
   }
 };
-
-//export const getCategoryById = (id) => API.get(`/categories/${id}`);
-
-// // Add new category (admin only)
-// export const addCategory = (data) => axios.post(`${API_URL}/categories`, data, { withCredentials: true });
-
-// // Update category (admin only)
-// export const updateCategory = (id, data) => axios.put(`${API_URL}/categories/${id}`, data, { withCredentials: true });
-
-// // Delete category (admin only)
-// export const deleteCategory = (id) => axios.delete(`${API_URL}/categories/${id}`, { withCredentials: true });

@@ -1,4 +1,3 @@
-// src/components/SlidingBanner.jsx
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
@@ -6,7 +5,6 @@ import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// Custom arrow for slider
 const Arrow = ({ onClick, direction }) => (
   <div
     onClick={onClick}
@@ -27,11 +25,8 @@ const SlidingBanner = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        // const res = await axios.get(`${baseUrl}/api/public/products`);
         const res = await axios.get(`${baseUrl}/api/public/products/featured`);
         const products = Array.isArray(res.data) ? res.data : [];
-
-        // Prepare banner images
         const getBannerImageUrl = (product) => {
           if (product.imageData && product.imageType) {
             return `data:${product.imageType};base64,${product.imageData}`;
@@ -40,15 +35,9 @@ const SlidingBanner = () => {
           if (product.imageName) return `${baseUrl}/images/${product.imageName}`;
           return "/default_product.png";
         };
-
-        // const bannerImages = products.slice(1, 7).map((p) => ({
-        //   id: p.id || p._id || p.productId,
-        //   imageUrl: getBannerImageUrl(p),
-        //   title: p.name || "Product",
-        // }));
         const bannerImages = products.map((p) => ({
   id: p.id || p._id,
-  imageUrl: getBannerImageUrl(p), // ✅ correct
+  imageUrl: getBannerImageUrl(p),
   title: p.name || "Product",
 }));
 

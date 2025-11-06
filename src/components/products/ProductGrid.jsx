@@ -1,4 +1,3 @@
-// src/components/products/ProductGrid.jsx
 import React from "react";
 import ProductCard from "./ProductCard";
 

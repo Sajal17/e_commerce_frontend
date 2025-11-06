@@ -15,8 +15,6 @@ const CheckoutPopup = ({
         <h2 className="text-xl font-semibold mb-4 text-center">
           Confirm Your Order
         </h2>
-
-        {/* Address Summary */}
         <div className="border-b pb-3 mb-3">
           <h3 className="font-semibold mb-1">Shipping To:</h3>
           <p>{address.fullName}</p>
@@ -25,8 +23,6 @@ const CheckoutPopup = ({
           </p>
           <p> {address.phone}</p>
         </div>
-
-        {/* Payment Summary */}
         <div className="border-b pb-3 mb-3">
           <h3 className="font-semibold mb-1">Payment Method:</h3>
           <p>
@@ -37,8 +33,6 @@ const CheckoutPopup = ({
               : "UPI / Wallet"}
           </p>
         </div>
-
-        {/* Items Summary */}
         <div className="border-b pb-3 mb-3 max-h-40 overflow-y-auto">
           <h3 className="font-semibold mb-2">Items:</h3>
           {cartItems.map((item) => (
@@ -51,14 +45,10 @@ const CheckoutPopup = ({
             </div>
           ))}
         </div>
-
-        {/* Total */}
         <div className="flex justify-between font-semibold text-lg mb-4">
           <span>Total:</span>
           <span>₹{totalPrice}</span>
         </div>
-
-        {/* Buttons */}
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}

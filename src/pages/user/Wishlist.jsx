@@ -1,4 +1,3 @@
-// src/pages/user/Wishlist.jsx
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -12,7 +11,7 @@ const Wishlist = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchWishlist = async () => {

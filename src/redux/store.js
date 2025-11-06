@@ -1,7 +1,5 @@
-// src/redux/store.js
 import { configureStore } from "@reduxjs/toolkit";
 
-// Import all slices
 import userReducer from "./slices/userSlice";
 import productReducer from "./slices/productSlice";
 import cartReducer from "./slices/cartSlice";
@@ -16,9 +14,6 @@ import authReducer from "./slices/authSlice";
 import sellerProductsReducer from "./slices/sellerProductSlice";
 import addressReducer from "./slices/addressSlice";
 import sellerOrdersReducer from "./slices/sellerOrderSlice";
-
-
-// (Optional) admin-specific slices
 import adminReducer from "./slices/adminSlice";
 
 const store = configureStore({
@@ -41,9 +36,9 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // avoids errors for non-serializable data
+      serializableCheck: false,
     }),
-  devTools: import.meta.env.MODE !== "production", // enable devtools only in dev mode
+  devTools: import.meta.env.MODE !== "production",
 });
 
 export default store;

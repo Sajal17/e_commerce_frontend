@@ -112,8 +112,6 @@ export const increaseQuantity = createAsyncThunk(
   }
 );
 
-
-// Decrease quantity
 export const decreaseQuantity = createAsyncThunk(
   "cart/decrease",
   async (productId, { rejectWithValue, getState }) => {

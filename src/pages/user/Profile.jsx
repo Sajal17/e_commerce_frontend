@@ -55,7 +55,6 @@ const Profile = () => {
 
   return (
     <main className="pt-20 max-w-7xl mx-auto p-4 flex gap-6">
-      {/* Sidebar */}
       <aside className="w-60 bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col gap-2">
         <button
           className={`text-left px-3 py-2 rounded ${activeTab === "profile" ? "bg-blue-600 text-white" : "text-gray-900 dark:text-gray-100 hover:bg-gray-100"}`}
@@ -82,8 +81,6 @@ const Profile = () => {
           Wishlist
         </button>
       </aside>
-
-      {/* Main Content */}
       <section className="flex-1 bg-white dark:bg-gray-800 rounded-xl shadow p-6">
         {activeTab === "profile" && (
           <>

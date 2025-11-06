@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchProductsByCategory } from "../../api/category";
 
-const CACHE_TTL = 1000 * 60 * 60 * 24; // 24 hours
+const CACHE_TTL = 1000 * 60 * 60 * 24;
 const isLoggedIn = () => !!localStorage.getItem("token");
 
 export const loadCategories = createAsyncThunk(

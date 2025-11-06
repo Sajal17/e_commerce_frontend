@@ -101,7 +101,6 @@ useEffect(() => {
             <Link to="/" className="text-2xl font-extrabold text-indigo-600">
               M-Mart
             </Link>
-            {/* <span className="text-xs text-gray-500">— marketplace</span> */}
           </div>
      <div className="relative flex-1 min-w-[200px] w-full sm:w-auto">
       <div className="flex items-center bg-slate-100 rounded-md overflow-hidden">

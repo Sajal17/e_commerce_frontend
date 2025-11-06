@@ -12,9 +12,6 @@ const RecentlyViewed = () => {
   const recentProducts = useSelector((state) => state.recentlyViewed?.items) || [];
   const scrollRef = useRef();
 
-  // Debug
-  console.log("Recently viewed products:", recentProducts);
-
   const handleAddToCart = (product) => {
     if (!product || !product.id) return;
     dispatch(addItemToCart({ ...product, quantity: 1 }));
@@ -22,7 +19,7 @@ const RecentlyViewed = () => {
 
   const handleNavigate = (productId) => {
     if (!productId) return;
-    navigate(`/product/${productId}`); // push to history (no replace!)
+    navigate(`/product/${productId}`);
   };
 
   return (

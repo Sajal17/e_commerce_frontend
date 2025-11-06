@@ -18,8 +18,6 @@ const SimilarProducts = ({ category, excludeId }) => {
     const normalizedProduct = { ...product, id: product.id || product._id || product.productId };
     dispatch(addItemToCart({ ...normalizedProduct, quantity: 1 }));
   };
-
-  // Filter out the currently viewed product
   const filteredProducts = similarProducts.filter(
     (p) => p.id !== (excludeId?.id || excludeId?._id || excludeId?.productId || excludeId)
   );

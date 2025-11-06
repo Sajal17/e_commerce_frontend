@@ -1,4 +1,3 @@
-// src/pages/category/CategoryProducts.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/products/ProductCard";
@@ -9,19 +8,14 @@ const CategoryProducts = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Filters
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [priceRange, setPriceRange] = useState(["", "100000"]); // store as strings.. min-max
-  const [sortBy, setSortBy] = useState(""); // e.g., price-asc, price-desc
-
-  // Load products
+  const [priceRange, setPriceRange] = useState(["", "100000"]);
+  const [sortBy, setSortBy] = useState("");
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
       try {
         const data = await fetchProductsByCategory(categoryName);
-        // Normalize IDs
         const normalized = data.map((p) => ({
           ...p,
           id: p.id || p._id || p.productId,
@@ -36,35 +30,25 @@ const CategoryProducts = () => {
     loadProducts();
   }, [categoryName]);
 
-  // Extract unique brands
   const allBrands = useMemo(() => {
     return Array.from(new Set(products.map((p) => p.brand).filter(Boolean)));
   }, [products]);
 
-  // Apply filters & sorting
   useEffect(() => {
     let filtered = products;
-
-    // Brand filter
     if (selectedBrands.length) {
       filtered = filtered.filter((p) => selectedBrands.includes(p.brand));
     }
-
-    // Price filter
     filtered = filtered.filter(
   (p) =>
     p.price >= Number(priceRange[0] || 0) &&
     p.price <= Number(priceRange[1] || Infinity)
 );
-
-    // Sorting
     if (sortBy === "price-asc") filtered.sort((a, b) => a.price - b.price);
     if (sortBy === "price-desc") filtered.sort((a, b) => b.price - a.price);
 
     setFilteredProducts(filtered);
   }, [products, selectedBrands, priceRange, sortBy]);
-
-  // Handle brand selection
   const toggleBrand = (brand) => {
     setSelectedBrands((prev) =>
       prev.includes(brand)
@@ -75,11 +59,8 @@ const CategoryProducts = () => {
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto gap-6 py-6 px-4">
-      {/* Sidebar Filters */}
       <aside className="lg:w-1/4 bg-white dark:bg-gray-800 rounded-lg p-4 shadow space-y-6">
         <h2 className="font-bold text-lg mb-2">Filters</h2>
-
-        {/* Brands */}
         <div>
           <h3 className="font-semibold mb-2">Brands</h3>
           {allBrands.length ? (
@@ -98,8 +79,6 @@ const CategoryProducts = () => {
             <p className="text-sm text-gray-500">No brands found</p>
           )}
         </div>
-
-        {/* Price Filter */}
         <div>
           <h3 className="font-semibold mb-2">Price</h3>
           <div className="flex items-center gap-2">
@@ -108,7 +87,7 @@ const CategoryProducts = () => {
              placeholder="Min"
              value={priceRange[0]}
              onChange={(e) =>
-             setPriceRange([e.target.value, priceRange[1]]) // keep as string
+             setPriceRange([e.target.value, priceRange[1]])
             }
           className="w-1/2 border rounded px-2 py-1"
           />
@@ -118,14 +97,12 @@ const CategoryProducts = () => {
         placeholder="Max"
       value={priceRange[1]}
        onChange={(e) =>
-       setPriceRange([priceRange[0], e.target.value]) // keep as string
+       setPriceRange([priceRange[0], e.target.value])
         }
           className="w-1/2 border rounded px-2 py-1"
           />
           </div>
         </div>
-
-        {/* Sort */}
         <div>
           <h3 className="font-semibold mb-2">Sort By</h3>
           <select
@@ -139,8 +116,6 @@ const CategoryProducts = () => {
           </select>
         </div>
       </aside>
-
-      {/* Products Grid */}
       <main className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {loading ? (
           <p className="col-span-full text-center">Loading...</p>
@@ -149,7 +124,7 @@ const CategoryProducts = () => {
             <ProductCard
               key={product.id}
               product={product}
-              cartItem={null} // You can integrate cart state here
+              cartItem={null}
               onAddToCart={() => console.log("Add to cart", product)}
             />
           ))

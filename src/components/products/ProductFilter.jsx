@@ -1,4 +1,3 @@
-// src/components/products/ProductFilter.jsx
 import React from "react";
 
 const ProductFilter = ({ filters, onChange }) => {
@@ -6,7 +5,6 @@ const ProductFilter = ({ filters, onChange }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 mb-6 flex flex-wrap gap-4 items-center">
-      {/* Category Filter */}
       <select
         value={category}
         onChange={(e) => onChange("category", e.target.value)}
@@ -18,8 +16,6 @@ const ProductFilter = ({ filters, onChange }) => {
         <option value="books">Books</option>
         <option value="home">Home & Kitchen</option>
       </select>
-
-      {/* Brand Filter */}
       <input
         type="text"
         value={brand}
@@ -27,8 +23,6 @@ const ProductFilter = ({ filters, onChange }) => {
         placeholder="Search by Brand"
         className="border p-2 rounded-lg"
       />
-
-      {/* Price Range */}
       <div className="flex items-center gap-2">
         <span>₹</span>
         <input
@@ -47,8 +41,6 @@ const ProductFilter = ({ filters, onChange }) => {
           className="border p-2 w-20 rounded-lg"
         />
       </div>
-
-      {/* Sort By */}
       <select
         value={sortBy}
         onChange={(e) => onChange("sortBy", e.target.value)}
