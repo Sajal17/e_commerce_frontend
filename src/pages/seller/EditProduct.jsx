@@ -151,7 +151,7 @@ const EditProduct = () => {
               <option value="TV">TV</option>
               <option value="Electronics">Electronics</option>
               <option value="Fashion">Fashion</option>
-              <option value="Home/Kitchen">Home/Kitchen</option>
+              <option value="Home-Kitchen">Home-Kitchen</option>
               <option value="Beauty">Beauty</option>
               <option value="Sports">Sports</option>
               <option value="Toys">Toys</option>
